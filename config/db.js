@@ -11,7 +11,7 @@ const conectarDB = async () => {
         });
         console.log('DB Conectada');
     } catch (error) {
-        console.log('Hubo un error');
+        console.log('Hubo un error 2');
         console.log(error);
         process.exit(1); // detener la app
     }
