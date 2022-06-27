@@ -1,7 +1,7 @@
 const Usuario = require('../models/Usuario');
-const Producto = require('../models/Producto');
-const Cliente = require('../models/Cliente');
-const Pedido = require('../models/Pedido');
+const Tipo = require('../models/Tipos');
+// const Cliente = require('../models/Cliente');
+// const Pedido = require('../models/Pedido');
 
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -9,7 +9,7 @@ require('dotenv').config({ path: 'variables.env' });
 
 
 const crearToken = (usuario, secreta, expiresIn) => {
-    // console.log(usuario);
+    console.log(usuario);
     const { id, email,nombre, apellido } = usuario;
 
     return jwt.sign( { id, email, nombre, apellido }, secreta, { expiresIn } )
@@ -21,24 +21,25 @@ const resolvers = {
         obtenerUsuario: async (_, {}, ctx) => {
             return ctx.usuario;
         }, 
-        // obtenerProductos: async () => {
-        //     try {
-        //         const productos = await Producto.find({});
-        //         return productos;
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // }, 
-        // obtenerProducto: async (_, { id }) => {
-        //     // revisar si el producto existe o no
-        //     const producto = await Producto.findById(id);
+        obtenerTipos: async () => {
+            try {
+                const tipos = await Tipo.find({});
+                return tipos;
+            } catch (error) {
+                console.log(error);
+            }
+        }, 
+        obtenerTipo: async (_, { id }) => {
+            // revisar si el producto existe o no
+            const tipo = await Tipo.findById(id);
 
-        //     if(!producto) {
-        //         throw new Error('Producto no encontrado');
-        //     }
+            if(!tipo) {
+                throw new Error('Tipo de contrato no encontrado');
+            }
 
-        //     return producto;
-        // },
+            return tipo;
+        },
+        
         // obtenerClientes: async () => {
         //     try {
         //         const clientes = await Cliente.find({});
@@ -210,31 +211,31 @@ const resolvers = {
             }
             
         },
-        // nuevoProducto: async (_, {input}) => {
-        //     try {
-        //         const producto = new Producto(input);
+        nuevoTipo: async (_, {input}) => {
+            try {
+                const tipo = new Tipo(input);
 
-        //         // almacenar en la bd
-        //         const resultado = await producto.save();
+                // almacenar en la bd
+                const resultado = await tipo.save();
 
-        //         return resultado;
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // }, 
-        // actualizarProducto: async (_, {id, input}) => {
-        //     // revisar si el producto existe o no
-        //     let producto = await Producto.findById(id);
+                return resultado;
+            } catch (error) {
+                console.log(error);
+            }
+        }, 
+        actualizarTipo: async (_, {id, input}) => {
+            // revisar si el producto existe o no
+            let tipo = await Tipo.findById(id);
 
-        //     if(!producto) {
-        //         throw new Error('Producto no encontrado');
-        //     }
+            if(!tipo) {
+                throw new Error('Tipo de contrato no encontrado');
+            }
 
-        //     // guardarlo en la base de datos
-        //     producto = await Producto.findOneAndUpdate({ _id : id }, input, { new: true } );
+            // guardarlo en la base de datos
+            tipo = await Tipo.findOneAndUpdate({ _id : id }, input, { new: true } );
 
-        //     return producto;
-        // }, 
+            return tipo;
+        }, 
         // eliminarProducto: async(_, {id}) => {
         //     // revisar si el producto existe o no
         //     let producto = await Producto.findById(id);
