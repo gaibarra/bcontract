@@ -5,6 +5,7 @@ const Tipo = require('../models/Tipos');
 
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Parte = require('../models/Parte');
 require('dotenv').config({ path: 'variables.env' });
 
 
@@ -40,14 +41,14 @@ const resolvers = {
             return tipo;
         },
         
-        // obtenerClientes: async () => {
-        //     try {
-        //         const clientes = await Cliente.find({});
-        //         return clientes;
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // }, 
+        obtenerPartes: async () => {
+            try {
+                const partes = await Parte.find({});
+                return partes;
+            } catch (error) {
+                console.log(error);
+            }
+        }, 
         // obtenerClientesVendedor: async (_, {}, ctx ) => {
         //     try {
         //         const clientes = await Cliente.find({ vendedor: ctx.usuario.id.toString() });
@@ -236,46 +237,48 @@ const resolvers = {
 
             return tipo;
         }, 
-        // eliminarProducto: async(_, {id}) => {
-        //     // revisar si el producto existe o no
-        //     let producto = await Producto.findById(id);
+        eliminarTipo: async(_, {id}) => {
+            // revisar si el producto existe o no
+            let tipo = await Tipo.findById(id);
 
-        //     if(!producto) {
-        //         throw new Error('Producto no encontrado');
-        //     }
+            if(!tipo) {
+                throw new Error('Tipo de contrato no encontrado');
+            }
 
-        //     // Eliminar
-        //     await Producto.findOneAndDelete({_id :  id});
+            // Eliminar
+            await Tipo.findOneAndDelete({_id :  id});
 
-        //     return "Producto Eliminado";
-        // },
-        // nuevoCliente: async (_, { input }, ctx) => {
+            return "Tipo de contrato Eliminado";
+        },
+        nuevoParte: async (_, { input }, ctx) => {
 
-        //     console.log(ctx);
+            console.log(ctx);
+            console.log(input);
+            
+            const { EMAIL } = input
+            // Verificar si el cliente ya esta registrado
+            console.log(input);
+            
 
-        //     const { email } = input
-        //     // Verificar si el cliente ya esta registrado
-        //     // console.log(input);
+            const parte = await Parte.findOne({ EMAIL });
+            if(parte) {
+                throw new Error('Ese email ya esta registrado');
+            }
 
-        //     const cliente = await Cliente.findOne({ email });
-        //     if(cliente) {
-        //         throw new Error('Ese cliente ya esta registrado');
-        //     }
+            const nuevoParte = new Parte(input);
 
-        //     const nuevoCliente = new Cliente(input);
+            // asignar el vendedor
+            nuevoParte.vendedor = ctx.usuario.id;
 
-        //     // asignar el vendedor
-        //     nuevoCliente.vendedor = ctx.usuario.id;
+            // guardarlo en la base de datos
 
-        //     // guardarlo en la base de datos
-
-        //     try {
-        //         const resultado = await nuevoCliente.save();
-        //         return resultado;
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // },
+            try {
+                const resultado = await nuevoParte.save();
+                return resultado;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         // actualizarCliente: async (_, {id, input}, ctx) => {
         //     // Verificar si existe o no
         //     let cliente = await Cliente.findById(id);

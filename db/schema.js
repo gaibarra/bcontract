@@ -25,15 +25,19 @@ const typeDefs = gql`
        encalidadde3f: String
    }
 
-  # type Cliente {
-  #     id: ID
-  #     nombre: String
-  #     apellido: String
-  #     empresa: String
-  #     email: String
-  #     telefono: String
-  #     vendedor: ID
-  # }
+  type Parte {
+      id: ID
+      CLAVE: String
+      NOMBRE: String
+      AP_PAT_: String
+      AP_MAT_: String
+      R_F_C_: String
+      IMSS: String
+      DEPTO: String
+      EMAIL: String
+      CURP: String
+      vendedor: ID
+  }
 
   # type Pedido {
   #     id: ID
@@ -82,13 +86,17 @@ const typeDefs = gql`
     encalidadde2f: String!
   }
 
-  # input ClienteInput {
-  #     nombre: String!
-  #     apellido: String!
-  #     empresa: String!
-  #     email: String!
-  #     telefono: String
-  # }
+  input ParteInput {
+      CLAVE: String!
+      NOMBRE: String!
+      AP_PAT_: String!
+      AP_MAT_: String!
+      R_F_C_: String!
+      IMSS: String!
+      DEPTO: String!
+      EMAIL: String!
+      CURP: String!
+  }
 
   # input PedidoProductoInput {
   #     id: ID
@@ -118,8 +126,8 @@ const typeDefs = gql`
     obtenerTipos: [Tipo]
     obtenerTipo(id: ID!): Tipo
 
-    #     #Clientes
-    #     obtenerClientes: [Cliente]
+    #Clientes
+    obtenerPartes: [Parte]
     #     obtenerClientesVendedor: [Cliente]
     #     obtenerCliente(id: ID!): Cliente
 
@@ -143,10 +151,10 @@ const typeDefs = gql`
     # Tipos
     nuevoTipo(input: TipoInput): Tipo
     actualizarTipo( id: ID!, input : TipoInput ) : Tipo
-    # eliminarProducto( id: ID! ) : String
+    eliminarTipo( id: ID! ) : String
 
-    # # Clientes
-    # nuevoCliente(input: ClienteInput) : Cliente
+    # Clientes
+    nuevoParte(input: ParteInput) : Parte
     # actualizarCliente(id: ID!, input: ClienteInput): Cliente
     # eliminarCliente(id: ID!) : String
 
