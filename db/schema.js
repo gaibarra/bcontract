@@ -128,8 +128,8 @@ const typeDefs = gql`
 
     #Clientes
     obtenerPartes: [Parte]
-    #     obtenerClientesVendedor: [Cliente]
-    #     obtenerCliente(id: ID!): Cliente
+    obtenerPartesVendedor: [Parte]
+    obtenerParte(id: ID!): Parte
 
     #     # Pedidos
     #     obtenerPedidos: [Pedido]
@@ -155,8 +155,8 @@ const typeDefs = gql`
 
     # Clientes
     nuevoParte(input: ParteInput) : Parte
-    # actualizarCliente(id: ID!, input: ClienteInput): Cliente
-    # eliminarCliente(id: ID!) : String
+    actualizarParte(id: ID!, input: ParteInput): Parte
+    eliminarParte(id: ID!) : String
 
     # # Pedidos
     # nuevoPedido(input: PedidoInput): Pedido

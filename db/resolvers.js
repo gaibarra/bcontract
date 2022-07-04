@@ -49,29 +49,30 @@ const resolvers = {
                 console.log(error);
             }
         }, 
-        // obtenerClientesVendedor: async (_, {}, ctx ) => {
-        //     try {
-        //         const clientes = await Cliente.find({ vendedor: ctx.usuario.id.toString() });
-        //         return clientes;
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // }, 
-        // obtenerCliente: async (_, { id }, ctx) => {
-        //     // Revisar si el cliente existe o no
-        //     const cliente = await Cliente.findById(id);
+        obtenerPartesVendedor: async (_, {}, ctx ) => {
+            try {
+                const partes = await Parte.find({ vendedor: ctx.usuario.id.toString() });
+                return partes;
+            } catch (error) {
+                console.log(error);
+            }
+        }, 
+        obtenerParte: async (_, { id }, ctx) => {
+            // Revisar si el cliente existe o no
+            const parte = await Parte.findById(id);
 
-        //     if(!cliente) {
-        //         throw new Error('Cliente no encontrado');
-        //     }
+            if(!parte) {
+                throw new Error('No encontrado');
+            }
 
-        //     // Quien lo creo puede verlo
-        //     if(cliente.vendedor.toString() !== ctx.usuario.id ) {
-        //         throw new Error('No tienes las credenciales');
-        //     }
+            // Quien lo creo puede verlo
+            if(parte.vendedor.toString() !== ctx.usuario.id ) {
+                throw new Error('No tienes las credenciales');
+            }
 
-        //     return cliente;
-        // }, 
+            // return PaymentResponse;
+            return parte; 
+        }, 
         // obtenerPedidos: async () => {
         //     try {
         //         const pedidos = await Pedido.find({});
@@ -279,40 +280,40 @@ const resolvers = {
                 console.log(error);
             }
         },
-        // actualizarCliente: async (_, {id, input}, ctx) => {
-        //     // Verificar si existe o no
-        //     let cliente = await Cliente.findById(id);
+        actualizarParte: async (_, {id, input}, ctx) => {
+            // Verificar si existe o no
+            let parte = await Parte.findById(id);
 
-        //     if(!cliente) {
-        //         throw new Error('Ese cliente no existe');
-        //     }
+            if(!parte) {
+                throw new Error('No existe');
+            }
 
-        //     // Verificar si el vendedor es quien edita
-        //     if(cliente.vendedor.toString() !== ctx.usuario.id ) {
-        //         throw new Error('No tienes las credenciales');
-        //     }
+            // Verificar si el vendedor es quien edita
+            if(parte.vendedor.toString() !== ctx.usuario.id ) {
+                throw new Error('No tienes las credenciales');
+            }
 
-        //     // guardar el cliente
-        //     cliente = await Cliente.findOneAndUpdate({_id : id}, input, {new: true} );
-        //     return cliente;
-        // },
-        // eliminarCliente : async (_, {id}, ctx) => {
-        //     // Verificar si existe o no
-        //     let cliente = await Cliente.findById(id);
+            // guardar el cliente
+            parte = await Parte.findOneAndUpdate({_id : id}, input, {new: true} );
+            return parte;
+        },
+        eliminarParte : async (_, {id}, ctx) => {
+            // Verificar si existe o no
+            let parte = await Parte.findById(id);
 
-        //     if(!cliente) {
-        //         throw new Error('Ese cliente no existe');
-        //     }
+            if(!parte) {
+                throw new Error('Ese cliente no existe');
+            }
 
-        //     // Verificar si el vendedor es quien edita
-        //     if(cliente.vendedor.toString() !== ctx.usuario.id ) {
-        //         throw new Error('No tienes las credenciales');
-        //     }
+            // Verificar si el vendedor es quien edita
+            if(parte.vendedor.toString() !== ctx.usuario.id ) {
+                throw new Error('No tienes las credenciales');
+            }
 
-        //     // Eliminar Cliente
-        //     await Cliente.findOneAndDelete({_id : id});
-        //     return "Cliente Eliminado"
-        // },
+            // Eliminar Cliente
+            await Parte.findOneAndDelete({_id : id});
+            return "Eliminado"
+        },
         // nuevoPedido: async (_, {input}, ctx) => {
 
         //     const { cliente } = input
