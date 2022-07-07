@@ -7,7 +7,12 @@ const ContratoSchema = mongoose.Schema({
         ref: 'Tipo'
     } ,
     
-    parte: {
+    parte1: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Parte'
+    },
+    parte2: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Parte'
@@ -20,9 +25,17 @@ const ContratoSchema = mongoose.Schema({
     importe: {
         type: Number,
         required: true,
+    },
+    estado: {
+        type: String,
+        default: "EN TRAMITE"
+    },
+    creado: {
+        type: Date,
+        default: Date.now()
     }
     
 
-}),
+});
 
 module.exports = mongoose.model('Contrato', ContratoSchema);

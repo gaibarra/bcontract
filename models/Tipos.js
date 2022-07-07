@@ -33,7 +33,18 @@ const TiposSchema = mongoose.Schema({
     encalidadde3f: {
         type: String,
         trim: true
+    },
+    titulo: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    textoinicial: {
+        type: String,
+        required: true,
+        trim: true
     }, 
+     
 
 
 });

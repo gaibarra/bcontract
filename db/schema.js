@@ -23,6 +23,8 @@ const typeDefs = gql`
        encalidadde2f: String
        encalidadde3: String
        encalidadde3f: String
+       titulo: String
+       textoinicial: String
    }
 
   type Parte {
@@ -39,15 +41,15 @@ const typeDefs = gql`
       vendedor: ID
   }
 
-  # type Pedido {
-  #     id: ID
-  #     pedido: [PedidoGrupo]
-  #     total: Float
-  #     cliente: Cliente
-  #     vendedor: ID
-  #     fecha: String
-  #     estado: EstadoPedido
-  # }
+  type Contrato {
+      id: ID
+      # pedido: [PedidoGrupo]
+      total: Float
+      cliente: Cliente
+      vendedor: ID
+      fecha: String
+      estado: EstadoPedido
+  }
 
   # type PedidoGrupo{
   #     id: ID
@@ -84,6 +86,10 @@ const typeDefs = gql`
     encalidadde1f: String!
     encalidadde2: String!
     encalidadde2f: String!
+    encalidadde3: String
+    encalidadde3f: String
+    titulo: String!
+    textoinicial: String!
   }
 
   input ParteInput {
@@ -105,18 +111,20 @@ const typeDefs = gql`
   #     precio: Float
   # }
 
-  # input PedidoInput {
-  #     pedido: [PedidoProductoInput]
-  #     total: Float
-  #     cliente: ID
-  #     estado: EstadoPedido
-  # }
+  input ContratoInput {
+      # pedido: [PedidoProductoInput]
+      tipo: ID
+      importe: Float
+      parte1: ID
+      parte2: ID
+      estado: EstadoContrato
+  }
 
-  # enum EstadoPedido {
-  #     PENDIENTE
-  #     COMPLETADO
-  #     CANCELADO
-  # }
+  enum EstadoContrato {
+      EN TRAMITE
+      COMPLETADO
+      CANCELADO
+  }
 
   type Query {
     #Usuarios
@@ -159,7 +167,7 @@ const typeDefs = gql`
     eliminarParte(id: ID!) : String
 
     # # Pedidos
-    # nuevoPedido(input: PedidoInput): Pedido
+    nuevoContrato(input: ContratoInput): Contrato
     # actualizarPedido(id: ID!, input: PedidoInput ) : Pedido
     # eliminarPedido(id: ID!) : String
   }
