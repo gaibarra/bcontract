@@ -44,11 +44,11 @@ const typeDefs = gql`
   type Contrato {
       id: ID
       # pedido: [PedidoGrupo]
-      total: Float
-      cliente: Cliente
+      importe: Float
+      parte1: ID
+      parte2: ID
       vendedor: ID
-      fecha: String
-      estado: EstadoPedido
+      estado: EstadoContrato
   }
 
   # type PedidoGrupo{
@@ -121,7 +121,7 @@ const typeDefs = gql`
   }
 
   enum EstadoContrato {
-      EN TRAMITE
+      TRAMITE
       COMPLETADO
       CANCELADO
   }
@@ -140,9 +140,9 @@ const typeDefs = gql`
     obtenerParte(id: ID!): Parte
 
     #     # Pedidos
-    #     obtenerPedidos: [Pedido]
-    #     obtenerPedidosVendedor: [Pedido]
-    #     obtenerPedido(id: ID!) : Pedido
+    obtenerContratos: [Contrato]
+    obtenerContratosVendedor: [Contrato]
+    obtenerContrato(id: ID!) : Contrato
     #     obtenerPedidosEstado(estado: String!): [Pedido]
 
     #     # Busquedas Avanzadas

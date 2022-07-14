@@ -1,7 +1,8 @@
 const Usuario = require('../models/Usuario');
 const Tipo = require('../models/Tipos');
-// const Cliente = require('../models/Cliente');
-// const Pedido = require('../models/Pedido');
+const parte1 = require('../models/Parte');
+const parte2 = require('../models/Parte');
+const Contrato = require('../models/Contrato');
 
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -73,39 +74,40 @@ const resolvers = {
             // return PaymentResponse;
             return parte; 
         }, 
-        // obtenerPedidos: async () => {
-        //     try {
-        //         const pedidos = await Pedido.find({});
-        //         return pedidos;
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // }, 
-        // obtenerPedidosVendedor: async (_, {}, ctx) => {
-        //     try {
-        //         const pedidos = await Pedido.find({ vendedor: ctx.usuario.id }).populate('cliente');
+        obtenerContratos: async () => {
+            try {
+                const contratos = await Contrato.find({});
+                return contratos;
+            } catch (error) {
+                console.log(error);
+            }
+        }, 
+        obtenerContratosVendedor: async (_, {}, ctx) => {
+        
+            try { 
+                const contratos = await Contrato.find({ vendedor: ctx.usuario.id });
 
-        //         // console.log(pedidos);
-        //         return pedidos;
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // }, 
-        // obtenerPedido: async(_, {id}, ctx) => {
-        //     // Si el pedido existe o no
-        //     const pedido = await Pedido.findById(id);
-        //     if(!pedido) {
-        //         throw new Error('Pedido no encontrado');
-        //     }
+                // console.log(pedidos);
+                return contratos;
+            } catch (error) {
+                console.log(error);
+            }
+        }, 
+        obtenerContrato: async(_, {id}, ctx) => {
+            // Si el pedido existe o no
+            const contrato = await Contrato.findById(id);
+            if(!contrato) {
+                throw new Error('Contrato no encontrado');
+            }
 
-        //     // Solo quien lo creo puede verlo
-        //     if(pedido.vendedor.toString() !== ctx.usuario.id) {
-        //         throw new Error('No tienes las credenciales');
-        //     }
+            // Solo quien lo creo puede verlo
+            if(contrato.vendedor.toString() !== ctx.usuario.id) {
+                throw new Error('No tienes las credenciales');
+            }
 
-        //     // retornar el resultado
-        //     return pedido;
-        // }, 
+            // retornar el resultado
+            return contrato;
+        }, 
         // obtenerPedidosEstado: async (_, { estado }, ctx) => {
         //     const pedidos = await Pedido.find({ vendedor: ctx.usuario.id, estado });
 
@@ -314,23 +316,34 @@ const resolvers = {
             await Parte.findOneAndDelete({_id : id});
             return "Eliminado"
         },
-        // nuevoPedido: async (_, {input}, ctx) => {
-
-        //     const { cliente } = input
+        nuevoContrato: async (_, {input}, ctx) => {
+            console.log(ctx)
+            const { parte1 } = input
             
-        //     // Verificar si existe o no
-        //     let clienteExiste = await Cliente.findById(cliente);
+            // Verificar si existe o no
+            let parte1Existe = await Parte.findById(parte1);
 
-        //     if(!clienteExiste) {
-        //         throw new Error('Ese cliente no existe');
-        //     }
+            if(!parte1Existe) {
+                throw new Error('No existe');
+            }
 
-        //     // Verificar si el cliente es del vendedor
-        //     if(clienteExiste.vendedor.toString() !== ctx.usuario.id ) {
-        //         throw new Error('No tienes las credenciales');
-        //     }
+            const { parte2 } = input
+            
+            // Verificar si existe o no
+            let parte2Existe = await Parte.findById(parte2);
 
-            // // Revisar que el stock este disponible
+            if(!parte2Existe) {
+                throw new Error('No existe');
+            }
+
+
+
+            // Verificar si el cliente es del vendedor
+            if(parte2Existe.vendedor.toString() !== ctx.usuario.id ) {
+                throw new Error('No tienes las credenciales');
+            }
+
+            // Revisar que el stock este disponible
             // for await ( const articulo of input.pedido ) {
             //     const { id } = articulo;
 
@@ -346,19 +359,19 @@ const resolvers = {
             //     }
             // }
 
-            // // Crear un nuevo pedido
-            // const nuevoPedido = new Pedido(input);
+            // Crear un nuevo pedido
+            const nuevoContrato = new Contrato(input);
 
-            // // asignarle un vendedor
-            // nuevoPedido.vendedor = ctx.usuario.id;
+            // asignarle un vendedor
+            nuevoContrato.vendedor = ctx.usuario.id;
 
         
-            // Guardarlo en la base de datos
-        //     const resultado = await nuevoPedido.save();
-        //     return resultado;
+            //Guardarlo en la base de datos
+            const resultado = await nuevoContrato.save();
+            return resultado;
 
             
-        // },
+        },
         // actualizarPedido: async(_, {id, input}, ctx) => {
 
         //     const { cliente } = input;
